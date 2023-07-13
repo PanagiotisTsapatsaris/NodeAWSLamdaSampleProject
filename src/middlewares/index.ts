@@ -1,0 +1,1 @@
+export {logBody} from './logBody';

@@ -1,0 +1,5 @@
+dist/
+lib/
+protos/
+cosmos/stored-procedures/*.js
+node_modules/
