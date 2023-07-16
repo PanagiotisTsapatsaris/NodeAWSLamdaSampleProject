@@ -6,7 +6,7 @@ const simpleEndpoint = async (event) => {
 	return {
 		statusCode: 200,
 		body: JSON.stringify({
-			message: 'Hello friend, welcome to the exciting Serverless world!',
+			message: 'Wassup boyyyy, welcome to the exciting Serverless world!',
 			event,
 		}),
 	};

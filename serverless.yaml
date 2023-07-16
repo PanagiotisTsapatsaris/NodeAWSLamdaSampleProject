@@ -1,0 +1,52 @@
+service: pts-lamda-tutorial
+
+plugins:
+  - serverless-bundle
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+  environment:
+    AUCTIONS_TABLE_NAME: ${self:custom.AuctionsTable.name}
+
+resources:
+  Resources:
+    AuctionsTable: ${file(infra/resources/AuctionsTable.yaml):AuctionsTable}
+    AuctionsTableModifierRole: ${file(infra/iam/AuctionsTableIAM.yaml):AuctionsTableModifierRole}
+
+functions:
+  simpleEndpoint:
+    handler: src/functions/simple-endpoint/handler.main
+    events:
+      - http:
+          method: post
+          path: /simpleEndpoint
+  createAuction:
+    handler: src/functions/create-auction/handler.main
+    role: AuctionsTableModifierRole
+    events:
+      - http:
+          method: post
+          path: /createAuction
+  getAuctions:
+    handler: src/functions/get-auctions/handler.main
+    role: AuctionsTableModifierRole
+    events:
+      - http:
+          method: get
+          path: /getAuctions
+  getAuction:
+    handler: src/functions/get-auction/handler.main
+    role: AuctionsTableModifierRole
+    events:
+      - http:
+          method: get
+          path: /getAuction/{id}
+
+custom:
+  AuctionsTable:
+    name: !Ref AuctionsTable
+    arn: !GetAtt AuctionsTable.Arn

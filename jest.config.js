@@ -2,7 +2,8 @@
 module.exports = {
 	moduleNameMapper: {
 		'@middlewares': '<rootDir>/src/middlewares',
-		'@libs/(.*)': '<rootDir>/src/libs/$1'
+		'@libs/(.*)': '<rootDir>/src/libs/$1',
+		'@dynamoDB': '<rootDir>/src/dynamo'
 	},
 	modulePaths: ['<rootDir>/src/'],
 
@@ -17,8 +18,10 @@ module.exports = {
 
 	// An array of directory names to be searched recursively up from the requiring module's location
 	moduleDirectories: ['node_modules'],
-
 	modulePathIgnorePatterns: ['<rootDir>/dist/'],
+
+	// The paths to modules that run some code to configure or set up the testing environment before each test
+	setupFiles: ['<rootDir>/setupTests.ts'],
 
 	testPathIgnorePatterns: ['<rootDir>/dist/', '/node_modules/'],
 

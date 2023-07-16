@@ -1,0 +1,21 @@
+AuctionsTableModifierRole:
+  Type: AWS::IAM::Role
+  Properties:
+    RoleName: AuctionsTableModifierRole
+    AssumeRolePolicyDocument:
+      Version: '2012-10-17'
+      Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+    Policies:
+      - PolicyName: DynamoDBPolicy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:PutItem
+                - dynamodb:Scan
+              Resource: ${self:custom.AuctionsTable.arn}

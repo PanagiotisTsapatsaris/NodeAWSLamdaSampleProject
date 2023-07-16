@@ -1,9 +1,13 @@
 module.exports = {
 	env: {
 		browser: true,
-		es2021: true,
+		es2021: true
 	},
-	extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
+	extends: [
+		'eslint:recommended',
+		'plugin:@typescript-eslint/recommended',
+		'prettier'
+	],
 	rules: {
 		indent: ['error', 'tab'],
 		'linebreak-style': ['error', 'unix'],
@@ -15,23 +19,23 @@ module.exports = {
 	overrides: [
 		{
 			env: {
-				node: true,
+				node: true
 			},
 			files: ['.eslintrc.{js,cjs}'],
 			parserOptions: {
-				sourceType: 'script',
-			},
-		},
-		{
-			'files': ['*.test.ts'],
-			'rules': {
-				'@typescript-eslint/no-explicit-any': ['off'],
+				sourceType: 'script'
 			}
 		},
+		{
+			files: ['*.test.ts'],
+			rules: {
+				'@typescript-eslint/no-explicit-any': ['off']
+			}
+		}
 	],
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
-		ecmaVersion: 'latest',
+		ecmaVersion: 'latest'
 	},
 	plugins: ['@typescript-eslint', 'prettier']
 };
