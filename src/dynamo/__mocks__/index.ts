@@ -1,6 +1,11 @@
 const initialize = async () => {
-	return {    
-		createAuction: async () => {}
+	return {
+		createAuction: async () => {},
+		getAuctionById: async () => {},
+		getAllAuctions: async () => {},
+		placeBid: async () => {},
+		getEndedAuctions: async () => { },
+		closeAuctionById: async () => { }
 	};
 };
 

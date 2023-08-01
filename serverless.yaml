@@ -2,6 +2,7 @@ service: pts-lamda-tutorial
 
 plugins:
   - serverless-bundle
+  - serverless-iam-roles-per-function
 
 provider:
   name: aws
@@ -9,42 +10,66 @@ provider:
   memorySize: 256
   stage: ${opt:stage, 'dev'}
   region: us-east-1
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - xray:PutTelemetryRecords
+            - xray:PutTraceSegments
+          Resource: '*'
   environment:
     AUCTIONS_TABLE_NAME: ${self:custom.AuctionsTable.name}
 
 resources:
   Resources:
     AuctionsTable: ${file(infra/resources/AuctionsTable.yaml):AuctionsTable}
-    AuctionsTableModifierRole: ${file(infra/iam/AuctionsTableIAM.yaml):AuctionsTableModifierRole}
 
 functions:
-  simpleEndpoint:
-    handler: src/functions/simple-endpoint/handler.main
-    events:
-      - http:
-          method: post
-          path: /simpleEndpoint
   createAuction:
     handler: src/functions/create-auction/handler.main
-    role: AuctionsTableModifierRole
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - ${file(infra/iam/AuctionsTableIAM.yaml):AuctionsTableIAM}
     events:
       - http:
           method: post
           path: /createAuction
   getAuctions:
     handler: src/functions/get-auctions/handler.main
-    role: AuctionsTableModifierRole
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - ${file(infra/iam/AuctionsTableIAM.yaml):AuctionsTableIAM}
     events:
       - http:
           method: get
           path: /getAuctions
   getAuction:
     handler: src/functions/get-auction/handler.main
-    role: AuctionsTableModifierRole
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - ${file(infra/iam/AuctionsTableIAM.yaml):AuctionsTableIAM}
     events:
       - http:
           method: get
           path: /getAuction/{id}
+  placeBid:
+    handler: src/functions/place-bid/handler.main
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - ${file(infra/iam/AuctionsTableIAM.yaml):AuctionsTableIAM}
+    events:
+      - http:
+          method: patch
+          path: /placeBid/{id}
+
+  processAuctions:
+    handler: src/functions/process-auctions/handler.main
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - ${file(infra/iam/AuctionsTableIAM.yaml):AuctionsTableIAM}
+    events:
+      - schedule: rate(2 minutes)
 
 custom:
   AuctionsTable:

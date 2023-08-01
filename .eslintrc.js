@@ -14,7 +14,8 @@ module.exports = {
 		quotes: ['error', 'single'],
 		semi: ['error', 'always'],
 		'no-multiple-empty-lines': ['error', { max: 2, maxEOF: 0 }],
-		'@typescript-eslint/no-explicit-any': ['error']
+		'@typescript-eslint/no-explicit-any': ['error'],
+		'no-trailing-spaces': ['error']
 	},
 	overrides: [
 		{
@@ -27,7 +28,7 @@ module.exports = {
 			}
 		},
 		{
-			files: ['*.test.ts'],
+			files: ['*.test.ts', 'testConstants.ts'],
 			rules: {
 				'@typescript-eslint/no-explicit-any': ['off']
 			}

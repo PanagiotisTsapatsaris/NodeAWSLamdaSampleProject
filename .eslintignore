@@ -1,5 +1,3 @@
 dist/
-lib/
-protos/
-cosmos/stored-procedures/*.js
+libs/
 node_modules/
